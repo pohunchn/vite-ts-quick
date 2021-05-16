@@ -1,28 +1,19 @@
 # 安装
 拉取代码后，在项目根目录执行`npm install`，成功后执行`npm run dev`即可启动项目（需安装nodejs+npm）
 
-# 注意事项
-* 不要引入`Base.ts`，请引入`Core.ts`
-* 请不要修改 `components/common` 文件夹下面的所有文件
-* 请不要修改 `App.vue`
-* 请不要修改 `views/Index.vue`
-* 请不要修改 `ts/Base.ts`
-* 请不要修改 `ts/apis/NetBase.ts`
-* 请不要修改 `types/Base.d.ts`
-* 请不要修改 `vite.config.ts`
-* 请不要修改 `index.html`
+# 内置模块
+* NetBase([Fetch](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch))
+* Cookie
+* Storage
+* [vue-router](https://next.router.vuejs.org/zh/)
+* [vuex]((https://next.vuex.vuejs.org/zh/))
+* [element-plus](https://element-plus.gitee.io/#/zh-CN/component/installation)
 
-# 如何拉取代码
-1. 新建一个空文件夹
-2. 将该文件夹拉入`vscode`或其他代码编辑器
-3. 打开终端
-4. 执行`git init`（需安装git）
-5. 执行`git remote add origin https://e.coding.net/pohun/mpshop/server_client.git`
-6. 执行`git pull origin master`
-7. 执行`git branch develop`（新增`develop`分支）
-8. 执行`git checkout develop`
-9. 执行`git pull origin develop`
-10. 完成
+# 注意事项
+* 本框架采用 [Fetch](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch) 作为网络请求器，不建议再次引入 axios
+* 请不要在业务项目中修改 `lib` 文件夹下面的所有文件
+* 建议自定义根库继承自 `lib/ts/Base`
+* **欢迎 `issues` 及 `pr`**
 
 # 以下为 vue3 教学
 
