@@ -14,12 +14,12 @@ export default class NetBase {
         }
     }
 
-    async post<T>(url: string, params: NetParams): Promise<T> {
+    async post<T>(url: string, params: NetParams = {}): Promise<T> {
         url = this.config.baseUrl  + url;
         return NetBase.spost<T>(url, params, this.config)
     }
 
-    async get<T>(url: string, params: NetParams): Promise<T> {
+    async get<T>(url: string, params: NetParams = {}): Promise<T> {
         url = this.config.baseUrl + url;
         return NetBase.sget(url, params, this.config);
     }
@@ -28,7 +28,7 @@ export default class NetBase {
         return new NetBase(config);
     }
 
-    static async spost<T>(url: string, params: NetParams, config?: NetConfig): Promise<T> {
+    static async spost<T>(url: string, params: NetParams = {}, config?: NetConfig): Promise<T> {
         let _config: NetQueryConfig = {
             method: 'POST',
             body: NetBase.getParams(params),
@@ -48,7 +48,7 @@ export default class NetBase {
         return NetBase.request<T>(url, _config, params, config as NetBaseConfig);
     }
 
-    static async sget<T>(url: string, params: NetParams, config?: NetConfig): Promise<T> {
+    static async sget<T>(url: string, params: NetParams = {}, config?: NetConfig): Promise<T> {
         let _config: NetQueryConfig = {
             method: "GET",
             mode: config?.mode || "cors"

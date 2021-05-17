@@ -18,7 +18,6 @@ const store: Module<StoreUser, unknown> = {
     },
     actions: {
         setText(context, payload: AnyObject) {
-            console.log('---->', context)
             context.commit("setText", payload);
         }
     },
