@@ -1,32 +1,32 @@
+import { Module } from "vuex";
+
 interface StoreUser {
     text: string
 }
 
-const state: StoreUser = {
-    text: "未修改"
-}
-
-const mutations = {
-    setText(state: StoreUser, payload: AnyObject) {
-        state.text = payload.text;
+const store: Module<StoreUser, unknown> = {
+    namespaced: true,
+    state() {
+        return {
+            text: "未修改"
+        }
+    },
+    mutations: {
+        setText(state: StoreUser, payload: AnyObject) {
+            state.text = payload.text;
+        }
+    },
+    actions: {
+        setText(context, payload: AnyObject) {
+            console.log('---->', context)
+            context.commit("setText", payload);
+        }
+    },
+    getters: {
+        getText(state: StoreUser) {
+            return state.text
+        }
     }
 }
 
-const actions = {
-    setText(context: any, payload: AnyObject) {
-        context.commit("setText", payload);
-    }
-}
-
-const getters =  {
-    getText(state: StoreUser) {
-        return state.text
-    }
-}
-
-export default {
-    state,
-    mutations,
-    actions,
-    getters
-}
+export default store

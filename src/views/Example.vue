@@ -26,7 +26,7 @@ export default defineComponent({
         let timeer1 = setTimeout(() => {
             refText.value = "已修改";
             reactiveText.text = "已修改";
-            st.dispatch("setText", { text: "已修改" })
+            st.dispatch("user/setText", { text: "已修改" }, {root: true})
             // 存 Cookie
             Base.Cookie.set("test", "已修改", 60*60*24);
             // 存 localStorage
@@ -49,7 +49,7 @@ export default defineComponent({
         }
     },
     computed: {
-        ...mapGetters(["getText"])
+        ...mapGetters("user", ["getText"])
     }
 })
 </script>
