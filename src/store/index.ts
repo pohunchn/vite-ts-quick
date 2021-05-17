@@ -16,7 +16,8 @@ const store = createStore({
 });
 
 export function useStore() {
-    return baseUseStore(key)
+    // return baseUseStore(key);
+    return baseUseStore();
 }
 
 // 热重载

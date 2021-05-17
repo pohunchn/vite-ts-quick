@@ -3,6 +3,8 @@
     <h1>{{ msg }}</h1>
     <h2>vite-ts-quick</h2>
 
+    <p>使用示例请看 Example</p>
+
     <p>
         Recommended IDE setup:
         <a href="https://code.visualstudio.com/" target="_blank">VSCode</a>
