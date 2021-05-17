@@ -70,7 +70,7 @@ export default defineComponent({
             })
 
         // 网络请求示例 3
-        Base.NetBase.sget<{text: string}>("api.json")
+        Base.NetBase.sget<{text: string}>("./api.json")
             .then(res => {
                 let timer3 = setTimeout(() => {
                     api3Text.text = res.text;
