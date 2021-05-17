@@ -13,7 +13,9 @@
 * 本框架采用 [Fetch](https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch) 作为网络请求器，不建议再次引入 axios
 * 请不要在业务项目中修改 `lib` 文件夹下面的所有文件
 * 建议自定义根库继承自 `lib/ts/Base`
+* [gitee](https://gitee.com/phcs/vite-ts-quick) 仅用于国内用户拉取代码，从 [github](https://github.com/pohunchn/vite-ts-quick) 同步，如需 `pr` 请访问 [github](https://github.com/pohunchn/vite-ts-quick)
 * **欢迎 `issues` 及 `pr`**
+* **欢迎 `star`**
 
 # 以下为 vue3 教学
 
