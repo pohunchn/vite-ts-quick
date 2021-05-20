@@ -33,7 +33,7 @@ export default class NetBase {
             method: 'POST',
             body: NetBase.getParams(params),
             mode: config?.mode || "cors",
-            credentials: config?.credentials || "omit",
+            credentials: config?.credentials || "include",
             headers: config?.headers || {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
@@ -103,6 +103,7 @@ export default class NetBase {
                     if (res.status === 200) {
                         res.json()
                             .then(json => {
+                                if (baseConfig?.interceptorSuccess) json = baseConfig.interceptorSuccess(json);
                                 if (baseConfig?.baseSuccess) baseConfig.baseSuccess(json)
                                 if (baseConfig?.baseComplete) baseConfig.baseComplete(json)
                                 if (params._success) params._success(json)

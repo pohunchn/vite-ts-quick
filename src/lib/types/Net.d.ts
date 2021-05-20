@@ -11,6 +11,7 @@ interface NetBaseConfig extends NetConfig {
     /** 网络请求根路径 */
     baseUrl: string,
     canNoJson?: boolean,
+    interceptorSuccess?: Function,
     baseSuccess?: Function,
     baseFail?: Function,
     baseComplete?: Function
