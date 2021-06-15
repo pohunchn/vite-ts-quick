@@ -13,81 +13,66 @@
 
 </style>
 
-<script lang="ts">
+<script setup lang="ts">
 import Base from '@/lib/ts/Base'
+import { computed } from "vue";
 import { useStore } from '@/store';
-import { defineComponent, Ref, ref, reactive } from 'vue'
-import { mapGetters } from 'vuex';
 
-export default defineComponent({
-    setup() {
-        let refText: Ref<string> = ref("未修改");
-        let reactiveText = reactive({text: "未修改"});
+ref: refText = "未修改";
+ref: reactiveText = {text: "未修改"};
+ref: api1Text = {text: "未修改"};
+ref: api2Text = {text: "未修改"};
+ref: api3Text = {text: "未修改"};
 
-        let api1Text = reactive({text: "未修改"});
-        let api2Text = reactive({text: "未修改"});
-        let api3Text = reactive({text: "未修改"});
+const st = useStore();
 
-        const st = useStore();
-        
-        let timer1 = setTimeout(() => {
-            refText.value = "已修改";
-            reactiveText.text = "已修改";
-            st.dispatch("user/setText", { text: "已修改" }, {root: true})
-            // 存 Cookie
-            Base.Cookie.set("test", "已修改", 60*60*24);
-            // 存 localStorage
-            Base.Storage.set("test", "已修改");
-            clearTimeout(timer1)
+ref: getText = computed(()=>{return st.getters["user/getText"]});
+
+let timer1 = setTimeout(() => {
+    refText = "已修改";
+    reactiveText.text = "已修改";
+    st.dispatch("user/setText", { text: "已修改" }, {root: true})
+    // 存 Cookie
+    Base.Cookie.set("test", "已修改", 60*60*24);
+    // 存 localStorage
+    Base.Storage.set("test", "已修改");
+    clearTimeout(timer1)
+}, 5000);
+
+// Base.NetBase.create({}) 等同于 new Base.NetBase({})
+// 网络请求示例 1
+const api1 = Base.NetBase.create({
+    baseUrl: "./"
+})
+
+api1.get("api.json", {
+    _success: (res: {text: string}) => {
+        let timer2 = setTimeout(() => {
+            api1Text.text = res.text;
+            clearTimeout(timer2);
         }, 5000);
-
-        // Base.NetBase.create({}) 等同于 new Base.NetBase({})
-        // 网络请求示例 1
-        const api1 = Base.NetBase.create({
-            baseUrl: "./"
-        })
-
-        api1.get("api.json", {
-            _success: (res: {text: string}) => {
-                let timer2 = setTimeout(() => {
-                    api1Text.text = res.text;
-                    clearTimeout(timer2);
-                }, 5000);
-            }
-        })
-
-        // 网络请求示例 2
-        const api2 = Base.NetBase.create({
-            baseUrl: "./"
-        })
-
-        api2.get<{text: string}>("api.json")
-            .then(res => {
-                let timer2 = setTimeout(() => {
-                    api2Text.text = res.text;
-                    clearTimeout(timer2);
-                }, 5000);
-            })
-
-        // 网络请求示例 3
-        Base.NetBase.sget<{text: string}>("./api.json")
-            .then(res => {
-                let timer3 = setTimeout(() => {
-                    api3Text.text = res.text;
-                    clearTimeout(timer3);
-                }, 5000);
-            })
-
-        return {
-            refText,
-            reactiveText,
-            api1Text,
-            api2Text,
-            api3Text
-        }
-    },
-    computed: {
-        ...mapGetters("user", ["getText"])
     }
 })
+
+// 网络请求示例 2
+const api2 = Base.NetBase.create({
+    baseUrl: "./"
+})
+
+api2.get<{text: string}>("api.json")
+    .then(res => {
+        let timer2 = setTimeout(() => {
+            api2Text.text = res.text;
+            clearTimeout(timer2);
+        }, 5000);
+    })
+
+// 网络请求示例 3
+Base.NetBase.sget<{text: string}>("./api.json")
+    .then(res => {
+        let timer3 = setTimeout(() => {
+            api3Text.text = res.text;
+            clearTimeout(timer3);
+        }, 5000);
+    })
 </script>

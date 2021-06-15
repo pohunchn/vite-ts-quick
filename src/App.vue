@@ -8,12 +8,8 @@
 	<div hidden>我知道你肯定会修改这里的^.^</div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 
-export default defineComponent({
-	name: 'App'
-})
 </script>
 
 <style>

@@ -6,15 +6,14 @@
 
 </style>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { useStore } from '@/store'
+import { onMounted } from "vue"
 
-export default defineComponent({
-    setup() {
-        
-    },
-    mounted() {
-        console.log(this.$store.state.user.test)
-    }
+const store = useStore()
+
+onMounted(()=>{
+    console.log(store.state.user.test)
 })
+
 </script>
