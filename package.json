@@ -1,5 +1,5 @@
 {
-  "name": "server_client",
+  "name": "vite-ts-quick",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
