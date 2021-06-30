@@ -3,7 +3,7 @@
     <h1>{{ msg }}</h1>
     <h2>vite-ts-quick</h2>
 
-    <p>使用示例请看 Example</p>
+    <p>使用示例请看 {{ $t("nav.example") }}</p>
 
     <p>
         Recommended IDE setup:

@@ -1,8 +1,8 @@
 <template>
 	<div id="nav">
-		<router-link to="/">Home</router-link> |
-		<router-link to="/about">About</router-link> |
-		<router-link to="/example">Example</router-link>
+		<router-link to="/">{{ $t("nav.home") }}</router-link> |
+		<router-link to="/about">{{ $t("nav.about") }}</router-link> |
+		<router-link to="/example">{{ $t("nav.example") }}</router-link>
 	</div>
 	<router-view />
 	<div hidden>我知道你肯定会修改这里的^.^</div>

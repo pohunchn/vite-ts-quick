@@ -6,6 +6,16 @@
         <p>这是网络请求示例一，5s后更改：{{ api1Text.text }}</p>
         <p>这是网络请求示例二，5s后更改：{{ api2Text.text }}</p>
         <p>这是网络请求示例三，5s后更改：{{ api3Text.text }}</p>
+        <el-pagination
+            :current-page="1"
+            :page-sizes="[100, 200, 300, 400]"
+            :page-size="100"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="400">
+        </el-pagination>
+        <el-button type="primary" round @click="changeLanguage">
+            {{ $t('buttons.changeLanguage') }}
+        </el-button>
     </div>
 </template>
 
@@ -17,12 +27,17 @@
 import Base from '@/lib/ts/Base'
 import { computed } from "vue";
 import { useStore } from '@/store';
+import { i18n, setLanguage } from '@/i18n';
 
 ref: refText = "未修改";
 ref: reactiveText = {text: "未修改"};
 ref: api1Text = {text: "未修改"};
 ref: api2Text = {text: "未修改"};
 ref: api3Text = {text: "未修改"};
+
+function changeLanguage() {
+    setLanguage(i18n.global.locale === "zh-cn" ? 'en' : 'zh-cn')
+}
 
 const st = useStore();
 
