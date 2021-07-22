@@ -1,3 +1,9 @@
+# 2021-07-22
+
+- 更新依赖
+- 去除无用依赖
+- 修复 `refSugar` 报错
+
 # 2021-06-30
 
 - 新增 [`i18n`](https://vue-i18n.intlify.dev/introduction.html) 支持
