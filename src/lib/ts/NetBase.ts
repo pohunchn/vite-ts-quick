@@ -51,7 +51,8 @@ export default class NetBase {
     static async sget<T>(url: string, params: NetParams = {}, config?: NetConfig): Promise<T> {
         let _config: NetQueryConfig = {
             method: "GET",
-            mode: config?.mode || "cors"
+            mode: config?.mode || "cors",
+            credentials: config?.credentials || "include"
         }
         let _params: AnyObject = NetBase.getParams(params);
         url = NetBase.params2GetUrl(url, _params);
