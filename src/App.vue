@@ -1,15 +1,22 @@
 <template>
-	<div id="nav">
-		<router-link to="/">{{ $t("nav.home") }}</router-link> |
-		<router-link to="/about">{{ $t("nav.about") }}</router-link> |
-		<router-link to="/example">{{ $t("nav.example") }}</router-link>
-	</div>
-	<router-view />
-	<div hidden>我知道你肯定会修改这里的^.^</div>
+	<el-config-provider :locale="language">
+		<div id="nav">
+			<router-link to="/">{{ $t("nav.home") }}</router-link> |
+			<router-link to="/about">{{ $t("nav.about") }}</router-link> |
+			<router-link to="/example">{{ $t("nav.example") }}</router-link>
+		</div>
+		<router-view />
+		<div hidden>我知道你肯定会修改这里的^.^</div>
+	</el-config-provider>
 </template>
 
 <script setup lang="ts">
+import { ElConfigProvider } from "element-plus"
+import { i18n } from "./i18n";
+import { computed } from "vue";
 
+let locale = $ref(computed(()=> i18n.global.locale));
+let language = $ref(computed(() => i18n.global.messages![locale]));
 </script>
 
 <style>

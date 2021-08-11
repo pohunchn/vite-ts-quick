@@ -10,9 +10,11 @@ export default defineConfig({
       "@": resolve(__dirname, "./src")
     }
   },
-  plugins: [vue({
-    script: {
-      refSugar: true
-    }
-  })]
+  plugins: [
+    vue({
+      script: {
+        refSugar: true
+      }
+    })
+  ]
 })

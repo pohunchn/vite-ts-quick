@@ -7,11 +7,13 @@
         <p>这是网络请求示例二，5s后更改：{{ api2Text.text }}</p>
         <p>这是网络请求示例三，5s后更改：{{ api3Text.text }}</p>
         <el-pagination
-            :current-page="1"
+            :current-page="elCPage"
             :page-sizes="[100, 200, 300, 400]"
-            :page-size="100"
+            :page-size="elPageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400">
+            :total="400"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" >
         </el-pagination>
         <el-button type="primary" round @click="changeLanguage">
             {{ $t('buttons.changeLanguage') }}
@@ -29,19 +31,30 @@ import { computed } from "vue";
 import { useStore } from '@/store';
 import { i18n, setLanguage } from '@/i18n';
 
-ref: refText = "未修改";
-ref: reactiveText = {text: "未修改"};
-ref: api1Text = {text: "未修改"};
-ref: api2Text = {text: "未修改"};
-ref: api3Text = {text: "未修改"};
+let refText = $ref("未修改");
+let reactiveText = $ref({text: "未修改"});
+let api1Text = $ref({text: "未修改"});
+let api2Text = $ref({text: "未修改"});
+let api3Text = $ref({text: "未修改"});
+
+let elPageSize = $ref(100);
+let elCPage = $ref(1);
 
 function changeLanguage() {
     setLanguage(i18n.global.locale === "zh-cn" ? 'en' : 'zh-cn')
 }
 
+function handleSizeChange(val: number) {
+    elPageSize = val
+}
+
+function handleCurrentChange(val: number) {
+    elCPage = val
+}
+
 const st = useStore();
 
-ref: getText = computed(()=>{return st.getters["user/getText"]});
+let getText = $ref(computed(()=>{return st.getters["user/getText"]}));
 
 let timer1 = setTimeout(() => {
     refText = "已修改";

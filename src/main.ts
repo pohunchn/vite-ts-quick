@@ -11,8 +11,6 @@ import "./assets/css/global.css"
 
 import { i18n } from './i18n';
 
-console.log(i18n.global.messages)
-
 const app = createApp(App);
 
 app.use(router);

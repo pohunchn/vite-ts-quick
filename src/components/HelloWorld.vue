@@ -45,7 +45,6 @@
 </template>
 
 <script setup lang="ts">
-
 const props = defineProps({
     msg: {
         type: String,
@@ -53,7 +52,7 @@ const props = defineProps({
     }
 })
 
-ref: count = 0;
+let count = $ref(0);
 
 </script>
 
