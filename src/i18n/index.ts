@@ -28,6 +28,8 @@ export const i18n = createI18n({
     messages: await loadLanguages()
 })
 
+export const i18nt = i18n.global.t
+
 export function setLanguage(locale: string) {
     i18n.global.locale = locale
 }
