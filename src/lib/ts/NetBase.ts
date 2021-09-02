@@ -81,7 +81,8 @@ export default class NetBase {
         let params: string[] = []
         for (let key in obj) {
             // 如果为数组或对象就格式化为 json字符串
-            if (typeof obj[key] === "object") obj[key] = JSON.stringify(obj[key]);
+            // if (typeof obj[key] === "object") obj[key] = JSON.stringify(obj[key]);
+            if (typeof obj[key] === "object") obj[key] = encodeURIComponent(JSON.stringify(obj[key]));
             // 过滤空数据
             if (obj[key] === null || obj[key] === undefined) continue;
             params.push(key+'='+obj[key]);
