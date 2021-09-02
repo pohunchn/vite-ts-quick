@@ -45,6 +45,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+
 const props = defineProps({
     msg: {
         type: String,
@@ -52,7 +54,7 @@ const props = defineProps({
     }
 })
 
-let count = $ref(0);
+const count = ref(0);
 
 </script>
 

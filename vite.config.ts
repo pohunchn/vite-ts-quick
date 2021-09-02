@@ -12,9 +12,7 @@ export default defineConfig({
   },
   plugins: [
     vue({
-      script: {
-        refSugar: true
-      }
+      // refTransform: true
     })
   ]
 })

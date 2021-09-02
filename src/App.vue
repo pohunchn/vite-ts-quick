@@ -1,5 +1,5 @@
 <template>
-	<el-config-provider :i18n="i18nt">
+	<el-config-provider :locale="locale">
 		<div id="nav">
 			<router-link to="/">{{ $t("nav.home") }}</router-link> |
 			<router-link to="/about">{{ $t("nav.about") }}</router-link> |
@@ -11,8 +11,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { ElConfigProvider } from "element-plus"
-import { i18nt } from "./i18n";
+import { i18n } from "./i18n";
+
+let locale = computed(() => i18n.global.messages![i18n.global.locale]);
 </script>
 
 <style>
