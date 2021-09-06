@@ -12,7 +12,7 @@ export default defineConfig({
   },
   plugins: [
     vue({
-      // refTransform: true
+      refTransform: [/src/]
     })
   ]
 })
