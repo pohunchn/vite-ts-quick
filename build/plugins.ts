@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from "fs"
  * @returns 
  */
 export function changePackageVersion(): Plugin {
-  if (process.env.NODE_ENV !== "development") {
+    if (process.env.NODE_ENV === "production") {
     let packagePath = resolve(__dirname, "../package.json");
     let packageStr = readFileSync(packagePath, {
       encoding: "utf-8"
