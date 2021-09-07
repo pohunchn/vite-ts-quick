@@ -14,6 +14,9 @@
 import { computed } from "vue";
 import { ElConfigProvider } from "element-plus"
 import { i18n } from "./i18n";
+import { version } from "../package.json"
+
+console.log(`%cRelease Build Version ${version}`, "background: #000;color:#FFF;");
 
 let locale = computed(() => i18n.global.messages![i18n.global.locale]);
 </script>
