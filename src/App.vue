@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { ElConfigProvider } from "element-plus"
 import { i18n } from "./i18n";
 import { version, buildTime } from "../build/info.json"
 
