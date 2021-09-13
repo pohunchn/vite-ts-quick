@@ -22,7 +22,7 @@ export function useStore() {
 
 // 热重载
 if (import.meta.hot) {
-    import.meta.hot?.accept(context.id, () => {
+    import.meta.hot?.accept(Object.keys(context), () => {
         const { modules } = loadModules()
         store.hotUpdate({
             modules

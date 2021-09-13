@@ -4,6 +4,8 @@
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
+    "isolatedModules": true,
+    "useDefineForClassFields": true,
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
@@ -16,5 +18,12 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": [
+    "src/**/*.ts"
+    , "src/**/*.d.ts"
+    , "src/**/*.tsx"
+    , "src/**/*.vue"
+    , "build/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
 }
