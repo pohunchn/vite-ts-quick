@@ -26,7 +26,7 @@ export function changePackageVersion(): Plugin {
     if (process.env.NODE_ENV === "production") {
         let packagePath = resolve(__dirname, "./info.json");
         let packageStr = readFileSync(packagePath, {
-        encoding: "utf-8"
+            encoding: "utf-8"
         });
         let packageJson = JSON.parse(packageStr);
         let version = packageJson.version;
@@ -37,7 +37,7 @@ export function changePackageVersion(): Plugin {
         packageJson.version = versionArr.join(".");
         packageJson.buildTime = getFormatTime();
         writeFileSync(packagePath, JSON.stringify(packageJson, null, "\t"), {
-        encoding: "utf-8"
+            encoding: "utf-8"
         })
     }
     return {
