@@ -9,7 +9,7 @@
   "dependencies": {
     "element-plus": "^1.1.0-beta.20",
     "vue": "^3.2.20",
-    "vue-i18n": "9.2.0-beta.11",
+    "vue-i18n": "^9.2.0-beta.12",
     "vue-router": "^4.0.11",
     "vuex": "^4.0.2"
   },

@@ -10,6 +10,7 @@
 * Storage
 * [vue-router](https://next.router.vuejs.org/zh/)
 * [vuex](https://next.vuex.vuejs.org/zh/)
+* [vue-i18n](https://vue-i18n.intlify.dev/)
 * [element-plus](https://element-plus.gitee.io/#/zh-CN/component/installation)
 
 # 注意事项
