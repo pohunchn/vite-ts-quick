@@ -22,7 +22,7 @@ BuildTime		${buildTime}`
 , "background:#FFF;color:#000;"
 )
 
-let locale = computed(() => i18n.global.messages![i18n.global.locale]);
+let locale = computed(() => (i18n.global.messages as any)![i18n.global.locale]);
 </script>
 
 <style>
