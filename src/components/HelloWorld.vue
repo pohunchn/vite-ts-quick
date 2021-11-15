@@ -47,12 +47,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const props = defineProps({
-    msg: {
-        type: String,
-        required: true
-    }
-})
+const props = withDefaults(defineProps<{
+    msg: string;
+}>(), {})
 
 const count = ref(0);
 
