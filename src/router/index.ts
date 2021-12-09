@@ -1,5 +1,25 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
 
+function getRoutes() {
+	const { routes } = loadRouters();
+	/**
+	 * 如果要对 routes 做一些处理，请在这里修改
+	 */
+	return routes;
+}
+
+const router = createRouter({
+    history: createWebHashHistory(),
+    routes: getRoutes()
+})
+
+// router.beforeEach((to, from, next) => {
+// 	next()
+// })
+
+export default router;
+
+/** 以下代码不要修改 */
 function loadRouters() {
 	const context = import.meta.globEager("../views/**/*.vue");
     const routes: RouteRecordRaw[] = [];
@@ -18,16 +38,3 @@ function loadRouters() {
 
     return { context, routes }
 }
-
-const { routes } = loadRouters();
-
-const router = createRouter({
-    history: createWebHashHistory(),
-    routes
-})
-
-// router.beforeEach((to, from, next) => {
-// 	next()
-// })
-
-export default router;
