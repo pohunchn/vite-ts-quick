@@ -17,7 +17,7 @@ export function getPages() {
   for (let i = 0; i < files.length; i++) {
     let key = files[i].replace('.html', '');
     if (key === 'index') continue;
-    pages[`${key}.html`] = resolve(__dirname, `src/pages/${files[i]}`);
+    pages[key] = resolve(__dirname, `src/pages/${files[i]}`);
   }
   return pages;
 }
