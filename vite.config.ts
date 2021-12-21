@@ -30,6 +30,9 @@ export default defineConfig({
       "@": resolve(__dirname, "./src")
     }
   },
+  server: {
+    host: process.env.NODE_ENV !== "production"
+  },
   plugins: [
     changePackageVersion(),
     vue({
