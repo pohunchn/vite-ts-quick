@@ -4,7 +4,8 @@ import router from './router';
 import store from "./store";
 
 import ElementPlus from "element-plus"
-import "element-plus/dist/index.css"
+// import "element-plus/dist/index.css"
+import 'element-plus/theme-chalk/index.css'
 
 import "./assets/css/setting.css"
 import "./assets/css/global.css"

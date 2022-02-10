@@ -13,7 +13,9 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="400"
             @size-change="handleSizeChange"
-            @current-change="handleCurrentChange" >
+            @current-change="handleCurrentChange"
+            style="justify-content: center;"
+        >
         </el-pagination>
         <el-button type="primary" round @click="changeLanguage">
             {{ $t('buttons.changeLanguage') }}
