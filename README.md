@@ -1,5 +1,7 @@
 # Installation
 
+use `npx degit pohunchn/vite-ts-quick#main my-project` or `git clone ...` pull code.
+
 After pulling the code, execute `npm install` in the root directory of the project. After success, execute `npm run dev` to start the project (nodejs + npm needs to be installed)
 
 # Others Template

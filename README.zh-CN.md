@@ -1,4 +1,7 @@
 # 安装
+
+使用 `npx degit pohunchn/vite-ts-quick#main my-project` 或者 `git clone ...` 拉取代码
+
 拉取代码后，在项目根目录执行`npm install`，成功后执行`npm run dev`即可启动项目（需安装nodejs+npm）
 
 # 其他模版
