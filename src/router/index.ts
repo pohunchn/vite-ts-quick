@@ -32,7 +32,8 @@ function loadRouters() {
 		routes.push({
 			path: path,
 			name: name,
-			component: () => import(`../views/${name}.vue`)
+			// component: () => import(`../views/${name}.vue`)
+			component: () => context[`../views/${name}.vue`]
 		})
     });
 
