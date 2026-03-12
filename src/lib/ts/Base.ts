@@ -1,7 +1,7 @@
 /**
  * 全局方法类基类
  * @author PHCS
- * @author 子不语<zz@pohun.com>
+ * @author Orzi!<zz@pohun.com>
  */
 
 import Cookie from './Cookie';
@@ -18,11 +18,40 @@ export default class Base {
     static Cookie = Cookie
     static Storage = Storage
 
-    /** 复制对象或数组 */
-    static cloneObjOrArr(obj: object) {
-        let a = JSON.stringify(obj);
-        let b = JSON.parse(a);
-        return b;
+    /**
+     * 浅拷贝数据
+     * @param data
+     */
+    static shallowClone<T>(data: T): T {
+        return JSON.parse(JSON.stringify(data));
+    }
+
+    /**
+     * 深拷贝数据
+     * @param data 
+     * @returns 
+     */
+    static deepClone<T>(data: T): T {
+        const cloneObj = (obj: AnyObject) => {
+            let _obj: AnyObject = {};
+            for (let key in obj) {
+                _obj[key] = Base.deepClone(obj[key]);
+            }
+            return _obj;
+        }
+        const cloneArr = <R>(arr: R[]): R[] => {
+            let _arr: R[] = [];
+            for (let i = 0; i < arr.length; i++) {
+                _arr.push(Base.deepClone(arr[i]));
+            }
+            return _arr;
+        }
+        if (typeof data === 'object') {
+            if (data === null) return data;
+            if (Array.isArray(data)) return cloneArr(data) as T;
+            return cloneObj(data) as T;
+        }
+        return data;
     }
     
 }

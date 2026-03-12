@@ -1,4 +1,4 @@
-import zhLocale from "element-plus/lib/locale/lang/zh-cn";
+import zhLocale from "element-plus/es/locale/lang/zh-cn";
 
 export const lang = {
     nav: {

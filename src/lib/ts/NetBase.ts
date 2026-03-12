@@ -154,6 +154,12 @@ export default class NetBase {
         })
     }
 
+    // static createApi<T>() {
+    //     const createProxy = new Proxy({}, () => {
+
+    //     })
+    // }
+
     /** 网络请求/上传文件 */
     // static async postFile(obj: NetParams): Promise<any> {
     //     if (!Core.config && obj.url !== '/static/json/config.json') {

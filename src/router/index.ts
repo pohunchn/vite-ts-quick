@@ -21,7 +21,7 @@ export default router;
 
 /** 以下代码不要修改 */
 function loadRouters() {
-	const context = import.meta.globEager("../views/**/*.vue");
+	const context = import.meta.glob("../views/**/*.vue", { eager: true }) as Record<string, any>;
     const routes: RouteRecordRaw[] = [];
 
     Object.keys(context).forEach((key: any) => {

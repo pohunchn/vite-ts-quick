@@ -1,37 +1,37 @@
 import { createI18n } from "vue-i18n"
 
-export function loadLanguages() {
-    const context = import.meta.globEager("./languages/*.ts");
+type LanguageModule = {
+    lang: AnyObject
+}
 
+export function loadLanguages() {
+    const context = import.meta.glob("./languages/*.ts", { eager: true }) as Record<string, LanguageModule>;
     const languages: AnyObject = {};
 
-    let langs = Object.keys(context);
-    for (let key of langs) {
-        if (key === "./index.ts") return;
-        let lang = context[key].lang;
-        let name = key.replace(/(\.\/languages\/|\.ts)/g, '');
-        // try {
-        //     if (name === "en") console.log('?????')
-        //     // const elLang = await import(`element-plus/lib/locale/lang/en`) as  AnyObject;
-        //     let elLang = await import(`element-plus/lib/locale/lang/${name}`) as AnyObject;
-        //     lang = Object.assign(lang, {el: elLang.deafault.default.el})
-        // } catch (error) {}
-        languages[name] = lang
+    for (const key of Object.keys(context)) {
+        const module = context[key];
+        const name = key.replace(/(\.\/languages\/|\.ts)/g, "");
+        languages[name] = module.lang;
     }
-    
-    return languages
+
+    return languages;
 }
 
 export const i18n = createI18n({
     // globalInjection: true,
     // legacy: false,
-    locale: 'zh-cn',
-    fallbackLocale: 'zh-cn',
+    locale: "zh-cn",
+    fallbackLocale: "zh-cn",
     messages: loadLanguages()
 })
 
 export const i18nt = i18n.global.t
 
 export function setLanguage(locale: string) {
-    i18n.global.locale = locale
+    const globalLocale = i18n.global.locale as unknown as { value?: string };
+    if (typeof globalLocale === "object" && globalLocale !== null && "value" in globalLocale) {
+        globalLocale.value = locale;
+        return;
+    }
+    (i18n.global.locale as unknown as string) = locale;
 }

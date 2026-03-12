@@ -7,15 +7,27 @@
 </style>
 
 <script setup lang="ts">
-import useTestStore from '@/store2/Test';
-import { computed } from 'vue';
+import { useStoreBase } from '@/store/Base';
+import { storeToRefs } from 'pinia';
+import { onBeforeUnmount, onMounted } from 'vue';
 
-const store = useTestStore();
-const test = computed(() => store.state.count);
+const storeBase = useStoreBase();
+const { test } = storeToRefs(storeBase);
 
 let a = 1;
-setInterval(() => {
-    store.run("aaa", a)
-    a++;
-}, 1000)
+let timer: any = null;
+
+onMounted(() => {
+    timer = setInterval(() => {
+        storeBase.addTest();
+        a++;
+    }, 1000);
+})
+
+onBeforeUnmount(() => {
+    if (timer) {
+        clearInterval(timer);
+        timer = null;
+    }
+})
 </script>
