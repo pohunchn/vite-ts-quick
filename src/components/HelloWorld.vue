@@ -10,31 +10,27 @@
         <a href="https://code.visualstudio.com/" target="_blank">VSCode</a>
         +
         <a
-            href="https://marketplace.visualstudio.com/items?itemName=octref.vetur"
+            href="https://marketplace.visualstudio.com/items?itemName=Vue.volar"
             target="_blank"
             >
-            Vetur
+            Vue(Official) Extension Pack
         </a>
-        or
-        <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-        (if using
-        <code>&lt;script setup&gt;</code>)
     </p>
 
     <p>
-        <a href="https://cn.vitejs.dev/" target="_blank">
+        <a href="https://vitejs.dev/" target="_blank">
             Vite Docs
         </a>
         |
-        <a href="https://v3.cn.vuejs.org/" target="_blank">Vue 3 Docs</a>
+        <a href="https://vuejs.org/" target="_blank">Vue 3.x Docs</a>
         |
-        <a href="https://next.router.vuejs.org/zh/" target="_blank">Vue-router 4.x Docs</a>
+        <a href="https://router.vuejs.org/" target="_blank">Vue-router Docs</a>
         |
-        <a href="https://next.vuex.vuejs.org/zh/" target="_blank">Vuex 4.x Docs</a>
+        <a href="https://pinia.vuejs.org/" target="_blank">Pinia Docs</a>
         |
         <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch" target="_blank">Fetch</a>
         |
-        <a href="https://element-plus.gitee.io/#/zh-CN/component/installation" target="_blank">Element-Plus</a>
+        <a href="https://element-plus.org/" target="_blank">Element-Plus Docs</a>
     </p>
 
     <button @click="count++">count is: {{ count }}</button>
