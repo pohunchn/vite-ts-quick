@@ -17,7 +17,7 @@ interface NetBaseConfig extends NetConfig {
 }
 
 interface NetQueryConfig extends NetConfig {
-    method: "GET"|"POST",
+    method: "GET"|"POST"|"PUT"|"DELETE",
     body?: any,
 }
 

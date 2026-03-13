@@ -1,7 +1,7 @@
 /**
  * 网络请求基类
  * @author PHCS
- * @author 子不语<zz@pohun.com>
+ * @author orzi!<zz@pohun.com>
  */
 
 export default class NetBase {
@@ -38,13 +38,9 @@ export default class NetBase {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         }
-        // 拦截器，但是为什么要拦截？
-        // config = config as NetBaseConfig;
-        // _config = config.Interceptor && config.Interceptor.post ? config.Interceptor.post(_config) || _config;
         if (_config.headers["Content-Type"] === "application/x-www-form-urlencoded") {
             _config.body = NetBase.params2Params(_config.body)
         }
-        // _config = NetBase.interceptor.post(_config);
         return NetBase.request<T>(url, _config, params, config as NetBaseConfig);
     }
 
@@ -56,16 +52,40 @@ export default class NetBase {
         }
         let _params: AnyObject = NetBase.getParams(params);
         url = NetBase.params2GetUrl(url, _params);
-        // 拦截器，但是为什么要拦截？
-        // config = config as NetBaseConfig;
-        // _config = config.Interceptor && config.Interceptor.get ? config.Interceptor.get(_config) || _config;
         return NetBase.request<T>(url, _config, params, config as NetBaseConfig)
     }
 
-    // static interceptor = {
-    //     post: ((config: (config: NetConfig) => {})): NetConfig => { return config },
-    //     get: (config: NetConfig): NetConfig => { return config },
-    // }
+    static async sput<T>(url: string, params: NetParams = {}, config?: NetConfig): Promise<T> {
+        let _config: NetQueryConfig = {
+            method: 'PUT',
+            body: NetBase.getParams(params),
+            mode: config?.mode || "cors",
+            credentials: config?.credentials || "include",
+            headers: config?.headers || {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        }
+        if (_config.headers["Content-Type"] === "application/x-www-form-urlencoded") {
+            _config.body = NetBase.params2Params(_config.body)
+        }
+        return NetBase.request<T>(url, _config, params, config as NetBaseConfig);
+    }
+
+    static async sdelete<T>(url: string, params: NetParams = {}, config?: NetConfig): Promise<T> {
+        let _config: NetQueryConfig = {
+            method: 'DELETE',
+            body: NetBase.getParams(params),
+            mode: config?.mode || "cors",
+            credentials: config?.credentials || "include",
+            headers: config?.headers || {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        }
+        if (_config.headers["Content-Type"] === "application/x-www-form-urlencoded") {
+            _config.body = NetBase.params2Params(_config.body)
+        }
+        return NetBase.request<T>(url, _config, params, config as NetBaseConfig);
+    }
 
     /** 获取请求数据（私有） */
     private static getParams(obj: NetParams): AnyObject {
@@ -154,11 +174,83 @@ export default class NetBase {
         })
     }
 
-    // static createApi<T>() {
-    //     const createProxy = new Proxy({}, () => {
+    /**
+     * 创建接口代理对象，支持链式调用，如 api.user.get._self() 对应 GET /user，api.user.post._self() 对应 POST /user
+     * @param baseUrl 
+     * @returns 
+     */
+    static createApi<T>(baseUrl: string = ""): T {
+        const createProxy = (...names: string[]) => new Proxy((...args: any) => {
+            let _path: string[] = [];
+            let method = "GET";
+            let specialType = ""; // download, multipartPost, etc.
 
-    //     })
-    // }
+            // Allowed methods and special types
+            const methods = ["GET", "POST", "PUT", "DELETE"];
+            const specialTypes = [
+                "DOWNLOAD",
+                "MULTIPARTPOST",
+                "STREAM",
+                "GETWITHURL",
+                "POSTWITHURL",
+            ];
+
+            for (const name of names) {
+                const upperName = name.toUpperCase();
+                if (methods.includes(upperName)) {
+                    method = upperName;
+                } else if (specialTypes.includes(upperName)) {
+                    specialType = upperName;
+                } else {
+                    _path.push(name);
+                }
+            }
+
+            // 如果最后一条路径是 _self 则代表不需要它，直接去掉它
+            if (_path[_path.length - 1] === "_self") _path.pop();
+
+            // Build URL
+            const urlPath = _path.join("/");
+
+            // Dispatch based on method/type
+            // if (specialType === "DOWNLOAD") {
+            //     return NetBase.download(baseUrl + "/" + urlPath, args[0], args[1]);
+            // }
+            // if (specialType === "MULTIPARTPOST") {
+            //     return NetBase.multipartPost(baseUrl + "/" + urlPath, args[0], args[1]);
+            // }
+            if (specialType === "GETWITHURL") {
+                // arguments are part of the URL
+                return NetBase.sget(baseUrl + "/" + urlPath + "/" + args.join("/"));
+            }
+            if (specialType === "POSTWITHURL") {
+                return NetBase.spost(baseUrl + "/" + urlPath + "/" + args.join("/"));
+            }
+
+            // Standard methods
+            switch (method) {
+                case "POST":
+                    return NetBase.spost(baseUrl + "/" + urlPath, args[0]);
+                case "PUT":
+                    return NetBase.sput(baseUrl + "/" + urlPath, args[0]);
+                case "DELETE":
+                    return NetBase.sdelete(baseUrl + "/" + urlPath, args[0]);
+                case "GET":
+                default:
+                    return NetBase.sget(baseUrl + "/" + urlPath, args[0]);
+            }
+        }, {
+            get(target: any, p: string) {
+                if (p === "then") return undefined;
+                if (!target[p]) {
+                    target[p] = createProxy(...names, p);
+                }
+                return target[p];
+            }
+        });
+
+        return createProxy() as T;
+    }
 
     /** 网络请求/上传文件 */
     // static async postFile(obj: NetParams): Promise<any> {
