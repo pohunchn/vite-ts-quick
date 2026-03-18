@@ -15,12 +15,10 @@ class BroadcastClass {
 		// detail 为 dispatchEvent 广播，data 为 BroadcastChannel 广播
 		// 跨页面不会有 dispatchEvent 广播
 		if (event.data) {
-			console.log("跨前页::::");
 			this._push(event.data);
 		}
 		// 同页面不会有 BroadcastChannel 广播
 		if (event.detail) {
-			console.log("当前页::::");
 			this._push(event.detail);
 		}
 	};
@@ -28,7 +26,7 @@ class BroadcastClass {
 		let _cs = this._callback.get(data.type);
 		if (_cs) {
 			for (let key of _cs.keys()) {
-					for (let i = 0; i < _cs.get(key)!; i++) {
+				for (let i = 0; i < _cs.get(key)!; i++) {
 					key(...data.data);
 				}
 			}
@@ -98,6 +96,7 @@ class BroadcastClass {
 	close() {
 		window.removeEventListener(this._name, this._func);
 		this._BroadcastChannel?.close();
+		_broadcastMap.delete(this._name);
 	}
 
 	getCallbackLen() {

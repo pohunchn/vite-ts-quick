@@ -14,13 +14,11 @@ import { onBeforeUnmount, onMounted } from 'vue';
 const storeBase = useStoreBase();
 const { test } = storeToRefs(storeBase);
 
-let a = 1;
-let timer: any = null;
+let timer: ReturnType<typeof setInterval> | null = null;
 
 onMounted(() => {
     timer = setInterval(() => {
         storeBase.addTest();
-        a++;
     }, 1000);
 })
 

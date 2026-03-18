@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import Base from '@/lib/ts/Base'
-import { computed, onBeforeUnmount, ref } from "vue";
+import { onBeforeUnmount, ref } from "vue";
 // import { useStore } from '@/store';
 import { i18n, setLanguage } from '@/i18n';
 
@@ -41,24 +41,13 @@ const api2Text = ref({text: "未修改"});
 const api3Text = ref({text: "未修改"});
 const api4Text = ref({text: "未修改"});
 
-let elPageSize = ref(100);
-let elCPage = ref(1);
-
-let timer1: NodeJS.Timeout | null = null;
-let timer2: NodeJS.Timeout | null = null;
-let timer3: NodeJS.Timeout | null = null;
-let timer4: NodeJS.Timeout | null = null;
+let timer1: ReturnType<typeof setTimeout> | null = null;
+let timer2: ReturnType<typeof setTimeout> | null = null;
+let timer3: ReturnType<typeof setTimeout> | null = null;
+let timer4: ReturnType<typeof setTimeout> | null = null;
 
 function changeLanguage() {
     setLanguage(i18n.global.locale === "zh-cn" ? 'en' : 'zh-cn')
-}
-
-function handleSizeChange(val: number) {
-    elPageSize.value = val
-}
-
-function handleCurrentChange(val: number) {
-    elCPage.value = val
 }
 
 timer1 = setTimeout(() => {
@@ -78,9 +67,12 @@ const api1 = Base.NetBase.create({
 
 api1.get("api.json", {
     _success: (res: {text: string}) => {
-        let timer2 = setTimeout(() => {
+        timer2 = setTimeout(() => {
             api1Text.value.text = res.text;
-            clearTimeout(timer2);
+            if (timer2) {
+                clearTimeout(timer2);
+                timer2 = null;
+            }
         }, 5000);
     }
 })

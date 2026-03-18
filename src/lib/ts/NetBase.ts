@@ -100,12 +100,12 @@ export default class NetBase {
         if (typeof obj == "string") obj = JSON.parse(obj) as AnyObject;
         let params: string[] = []
         for (let key in obj) {
-            // 如果为数组或对象就格式化为 json字符串
-            // if (typeof obj[key] === "object") obj[key] = JSON.stringify(obj[key]);
-            if (typeof obj[key] === "object") obj[key] = encodeURIComponent(JSON.stringify(obj[key]));
             // 过滤空数据
             if (obj[key] === null || obj[key] === undefined) continue;
-            params.push(key+'='+obj[key]);
+            let value = obj[key];
+            // 如果为数组或对象就格式化为 json字符串
+            if (typeof value === "object") value = JSON.stringify(value);
+            params.push(encodeURIComponent(key)+'='+encodeURIComponent(String(value)));
         }
         return params.join("&");
     }
@@ -118,11 +118,45 @@ export default class NetBase {
         return url+sparam;
     }
 
+    private static getWithUrl(url: string, args: any[]): string {
+        const extraPath = args
+            .filter(arg => arg !== null && arg !== undefined)
+            .map(arg => encodeURIComponent(String(arg)))
+            .join("/");
+        return extraPath ? url + "/" + extraPath : url;
+    }
+
+    private static async requestText<T>(res: Response, params: NetParams, baseConfig?: NetBaseConfig): Promise<T> {
+        return res.text()
+            .then(text => {
+                let result: string | T = text as T;
+                if (baseConfig?.baseSuccess) result = baseConfig.baseSuccess(result) || result;
+                if (baseConfig?.baseComplete) baseConfig.baseComplete(result);
+                if (params._success) params._success(result);
+                if (params._complete) params._complete(result);
+                return result as T;
+            })
+            .catch(err => {
+                if (baseConfig?.baseFail) err = baseConfig.baseFail(err) || err;
+                if (baseConfig?.baseComplete) baseConfig.baseComplete(err);
+                if (params._fail) params._fail(err);
+                if (params._complete) params._complete(err);
+                throw err;
+            })
+    }
+
     private static async request<T>(url: string, config: NetConfig, params: NetParams, baseConfig?: NetBaseConfig): Promise<T> {
         return new Promise<T>((resolve: (value: T) => void, reject: (reason?: any) => void) => {
             fetch(url, config)
                 .then(res=> {
-                    if (res.status === 200) {
+                    if (res.ok) {
+                        const contentType = res.headers.get("content-type") || "";
+                        if (baseConfig?.canNoJson && !contentType.includes("application/json")) {
+                            NetBase.requestText<T>(res, params, baseConfig)
+                                .then(resolve)
+                                .catch(reject);
+                            return;
+                        }
                         res.json()
                             .then(json => {
                                 if (baseConfig?.baseSuccess) json = baseConfig.baseSuccess(json) || json;
@@ -133,21 +167,9 @@ export default class NetBase {
                             })
                             .catch(err => {
                                 if (baseConfig?.canNoJson) {
-                                    res.text()
-                                        .then(text => {
-                                            if (baseConfig?.baseSuccess) baseConfig.baseSuccess(text);
-                                            if (baseConfig?.baseComplete) baseConfig.baseComplete(text);
-                                            if (params._success) params._success(text);
-                                            if (params._complete) params._complete(text);
-                                            resolve(text as any);
-                                        })
-                                        .catch(err => {
-                                            if (baseConfig?.baseFail) err = baseConfig.baseFail(err) || err;
-                                            if (baseConfig?.baseComplete) baseConfig.baseComplete(err);
-                                            if (params._fail) params._fail(err);
-                                            if (params._complete) params._complete(err);
-                                            reject(err);
-                                        })
+                                    NetBase.requestText<T>(res, params, baseConfig)
+                                        .then(resolve)
+                                        .catch(reject);
                                 } else {
                                     if (baseConfig?.baseFail) err = baseConfig.baseFail(err) || err;
                                     if (baseConfig?.baseComplete) baseConfig.baseComplete(err);
@@ -221,10 +243,10 @@ export default class NetBase {
             // }
             if (specialType === "GETWITHURL") {
                 // arguments are part of the URL
-                return NetBase.sget(baseUrl + "/" + urlPath + "/" + args.join("/"));
+                return NetBase.sget(NetBase.getWithUrl(baseUrl + "/" + urlPath, args));
             }
             if (specialType === "POSTWITHURL") {
-                return NetBase.spost(baseUrl + "/" + urlPath + "/" + args.join("/"));
+                return NetBase.spost(NetBase.getWithUrl(baseUrl + "/" + urlPath, args));
             }
 
             // Standard methods
